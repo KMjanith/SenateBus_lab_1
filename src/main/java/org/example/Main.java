@@ -48,6 +48,13 @@ public class Main {
         Rider.start();
         RiderTempo.start();
 
+        System.out.println("🚌 [BUS THREAD] Starting " + Bus.getName());
+        System.out.println("======================================");
+        System.out.println("🚶‍ [RIDER THREAD] Starting " + Rider.getName());
+        System.out.println("======================================");
+        System.out.println("🚶‍ [TEMP RIDER THREAD] Starting " + RiderTempo.getName());
+        System.out.println("======================================");
+
         //waiting for threads
         try
         {

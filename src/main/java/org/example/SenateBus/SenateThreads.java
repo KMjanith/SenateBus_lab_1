@@ -20,74 +20,63 @@ public class SenateThreads extends Thread {
 
     @Override
     public void run() {
+
         try {
             while (true) {  // Loop indefinitely for continuous execution
                 if (threadName.equals("Bus")) {
-                    System.out.println("======================================");
-                    System.out.println("🚌 [BUS THREAD] Starting " + threadName);
-                    System.out.println("======================================");
 
-                    System.out.println("🚌 " + threadName + " Pending to Arrive...");
                     busArrived.acquire();
+                    tempFiller.release(); //now the temporary filler can start filling the waitingWhenBusArrived queue
                     System.out.println("🚌 " + threadName + " ARRIVED and TempFiller RELEASED 🚦");
-                    tempFiller.release();
 
-                    System.out.println("🚌 " + threadName + " waiting for riders to board...");
-                    riders.acquire();
+
+                    riders.acquire(); //now rider thread cannot add more riders to the riders(original) queue
                     System.out.println("🚌 BOARDING RIDERS");
 
                     if (Riders.riders == 0) {
-                        busArrived.release();
-                        System.out.println("🚌 Bus Departed as there are NO riders 🏃‍♂️");
-                        riders.release();
-                        tempFiller.acquire();
-                        Thread.sleep(400);
+                        busArrived.release();  //bus gone as there are no riders
+                        System.out.println("🚌 Bus Departed as there are NO riders 🏁");
+                        riders.release(); //release the riders semaphore so that riders can start adding riders again
+                        tempFiller.acquire();  //tempFiller will wait for the bus to arrive again
+                        Thread.sleep(4000);
                     } else {
                         int availableRiders = Math.min(Riders.riders, MAX);
                         Riders.riders -= availableRiders;
+                        Thread.sleep(1200);  //boarding time, this waiting time helps to simulate the temporary rider adding process clearly.
                         System.out.println("🚌 " + threadName + " BOARDED with " + availableRiders + " Riders 🎟️");
-                        busArrived.release();
-                        System.out.println("🚌 Bus DEPARTED with " + availableRiders + " riders 🏁 | Remaining Riders: " + Riders.riders + " | Waiting Riders: " + Riders.waitingWhenBusArrived);
+                        busArrived.release(); //bus is gone
+                        System.out.println("🚌 Bus DEPARTED with " + availableRiders + " riders 🎟️ | Remaining Riders: " + Riders.riders + " | Waiting Riders: " + Riders.waitingWhenBusArrived);
 
                         tempFiller.acquire();
                         Riders.riders += Riders.waitingWhenBusArrived;
                         Riders.waitingWhenBusArrived = 0;
 
-                        System.out.println("----------- New Riders: " + Riders.riders + " | Waiting Riders cleared: " + Riders.waitingWhenBusArrived + " -----------");
+                        System.out.println("----------- New Riders: " + Riders.riders + " | Waiting Riders cleared: " +  " -----------");
                         riders.release();
-                        Thread.sleep(400);
+                        Thread.sleep(4000);
                     }
 
                 } else if (threadName.equals("Rider")) {
-                    System.out.println("======================================");
-                    System.out.println("🚶‍♂️ [RIDER THREAD] Starting " + threadName);
-                    System.out.println("======================================");
 
-                    System.out.println("🚶‍♂️ " + threadName + " is waiting for a permit to board...");
+
                     riders.acquire();
-                    System.out.println("🚶‍♂️ " + threadName + " gets a permit and joins the queue.");
+                    System.out.println("🚶‍♂️ " + threadName + " start to add a rider to the queue.");
 
                     Riders.riders++;
-                    System.out.println("🚶‍♂️ Total Riders at stop: " + Riders.riders);
-                    riders.release();
+                    System.out.println(" ------------ Total Riders at stop: " + Riders.riders);
+                    riders.release();  //release the riders semaphore so that bus can start boarding riders aby time it arrived
 
-                    Thread.sleep(10);
+                    Thread.sleep(100);
 
                 } else {
-                    System.out.println("======================================");
-                    System.out.println("🚶‍♂️ [TEMP RIDER THREAD] Starting " + threadName);
-                    System.out.println("======================================");
 
-                    System.out.println("🚶‍♂️ " + threadName + " is waiting for a permit to join temp queue...");
-                    tempFiller.acquire();
-                    System.out.println("🚶‍♂️ " + threadName + " gets a permit and waits at stop.");
 
-                    Riders.waitingWhenBusArrived++;
-                    System.out.println("🚶‍♂️ " + threadName + " added to waiting queue. Total Waiting: " + Riders.waitingWhenBusArrived);
-                    tempFiller.release();
-                    System.out.println("🚶‍♂️ TempRider finishes waiting temporarily.");
+                    tempFiller.acquire(); // getting the permit to add riders to the waitingWhenBusArrived queue
+                    Riders.waitingWhenBusArrived++; // adding rider to the waitingWhenBusArrived queue
+                    System.out.println("🚶 " + threadName + " added a rider to the waiting queue. Total Waiting Riders: " + Riders.waitingWhenBusArrived);
+                    tempFiller.release(); // releasing the permit so that bus can start boarding riders ad depart when boarding finished
 
-                    Thread.sleep(10);
+                    Thread.sleep(100);
                 }
             }
         } catch (InterruptedException e) {
