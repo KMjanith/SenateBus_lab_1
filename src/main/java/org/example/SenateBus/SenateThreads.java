@@ -7,6 +7,8 @@ public class SenateThreads extends Thread {
     Semaphore tempFiller;
     Semaphore riders;
     String threadName;
+    static int riderID = 1;  // To give unique IDs to each rider
+    int MAX = 50;
 
     public SenateThreads(Semaphore busArrived, Semaphore tempFiller, Semaphore riders, String threadName) {
         super(threadName);
@@ -16,67 +18,68 @@ public class SenateThreads extends Thread {
         this.threadName = threadName;
     }
 
-    int MAX = 50;
-
     @Override
     public void run() {
-
         try {
             while (true) {  // Loop indefinitely for continuous execution
                 if (threadName.equals("Bus")) {
-
                     busArrived.acquire();
-                    tempFiller.release(); //now the temporary filler can start filling the waitingWhenBusArrived queue
+                    tempFiller.release();  //now the temporary filler can start filling the waiting queue
                     System.out.println("🚌 " + threadName + " ARRIVED and TempFiller RELEASED 🚦");
 
-
-                    riders.acquire(); //now rider thread cannot add more riders to the riders(original) queue
+                    riders.acquire();  // Stop new riders from being added to the main queue while boarding
                     System.out.println("🚌 BOARDING RIDERS");
 
-                    if (Riders.riders == 0) {
-                        busArrived.release();  //bus gone as there are no riders
+                    if (Riders.riderQueue.isEmpty()) {
+                        busArrived.release();  // Bus departs if there are no riders
                         System.out.println("🚌 Bus Departed as there are NO riders 🏁");
-                        riders.release(); //release the riders semaphore so that riders can start adding riders again
-                        tempFiller.acquire();  //tempFiller will wait for the bus to arrive again
+                        riders.release();  // Allow riders to start adding to the queue again
+                        tempFiller.acquire();  // Wait for the bus to arrive again
                         Thread.sleep(4000);
                     } else {
-                        int availableRiders = Math.min(Riders.riders, MAX);
-                        Riders.riders -= availableRiders;
-                        Thread.sleep(1200);  //boarding time, this waiting time helps to simulate the temporary rider adding process clearly.
-                        System.out.println("🚌 " + threadName + " BOARDED with " + availableRiders + " Riders 🎟️");
-                        busArrived.release(); //bus is gone
-                        System.out.println("🚌 Bus DEPARTED with " + availableRiders + " riders 🎟️ | Remaining Riders: " + Riders.riders + " | Waiting Riders: " + Riders.waitingWhenBusArrived);
+                        int boardedRiders = 0;
 
-                        tempFiller.acquire();
-                        Riders.riders += Riders.waitingWhenBusArrived;
-                        Riders.waitingWhenBusArrived = 0;
+                        // Board up to MAX riders from the queue
+                        while (boardedRiders < MAX && !Riders.riderQueue.isEmpty()) {
+                            String rider = Riders.riderQueue.poll();  // Remove from the queue (FIFO)
+                            System.out.println("🚌 Boarding Rider: " + rider);
+                            boardedRiders++;
+                            Thread.sleep(200);  // Simulate boarding time
+                        }
 
-                        System.out.println("----------- New Riders: " + Riders.riders + " | Waiting Riders cleared: " +  " -----------");
+                        System.out.println("🚌 Bus DEPARTED with " + boardedRiders + " riders 🎟️ | Remaining Riders at stop: " + Riders.riderQueue.size());
+
+                        busArrived.release(); // Bus is gone
+                        tempFiller.acquire(); // Temporary riders waiting are moved to the main queue
+
+                        // Move temporary riders to the main queue
+                        while (!Riders.waitingQueue.isEmpty()) {
+                            String tempRider = Riders.waitingQueue.poll();
+                            Riders.riderQueue.add(tempRider);
+                        }
+
+                        System.out.println("----------- New Riders at stop: " + Riders.riderQueue.size() + " -----------");
                         riders.release();
                         Thread.sleep(4000);
                     }
 
                 } else if (threadName.equals("Rider")) {
+                    riders.acquire();  // Get permit to add to the rider queue
+                    String riderName = "Rider-" + riderID++;
+                    Riders.riderQueue.add(riderName);  // Add rider to the queue
+                    System.out.println("🚶‍♂️ " + threadName + " added " + riderName + " to the queue. Total Riders at stop: " + Riders.riderQueue.size());
+                    riders.release();  // Allow the bus to board riders at any time
 
+                    Thread.sleep(100);  // Simulate random arrival times
 
-                    riders.acquire();
-                    System.out.println("🚶‍♂️ " + threadName + " start to add a rider to the queue.");
+                } else {  // TempRider
+                    tempFiller.acquire();  // Get permit to add to the waiting queue
+                    String tempRiderName = "TempRider-" + riderID++;
+                    Riders.waitingQueue.add(tempRiderName);  // Add to temporary waiting queue
+                    System.out.println("🚶 " + threadName + " added " + tempRiderName + " to the waiting queue. Total Waiting Riders: " + Riders.waitingQueue.size());
+                    tempFiller.release();  // Allow the bus to board riders when it arrives
 
-                    Riders.riders++;
-                    System.out.println(" ------------ Total Riders at stop: " + Riders.riders);
-                    riders.release();  //release the riders semaphore so that bus can start boarding riders aby time it arrived
-
-                    Thread.sleep(100);
-
-                } else {
-
-
-                    tempFiller.acquire(); // getting the permit to add riders to the waitingWhenBusArrived queue
-                    Riders.waitingWhenBusArrived++; // adding rider to the waitingWhenBusArrived queue
-                    System.out.println("🚶 " + threadName + " added a rider to the waiting queue. Total Waiting Riders: " + Riders.waitingWhenBusArrived);
-                    tempFiller.release(); // releasing the permit so that bus can start boarding riders ad depart when boarding finished
-
-                    Thread.sleep(100);
+                    Thread.sleep(100);  // Simulate random arrival times
                 }
             }
         } catch (InterruptedException e) {

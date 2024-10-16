@@ -1,7 +1,14 @@
 package org.example.SenateBus;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Riders {
 
-    public static int riders = 0;
-    public static int waitingWhenBusArrived = 0;
+    // FIFO queue for riders at the stop
+    public static Queue<String> riderQueue = new LinkedList<>();
+
+    // FIFO queue for riders arriving while the bus is boarding
+    public static Queue<String> waitingQueue = new LinkedList<>();
+
 }
