@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="032f89c4-4552-4ea4-b435-6df4543ee216" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/SenateBus/SenateThreads.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/SenateBus/SenateThreads.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,7 +88,7 @@
     "Application.Main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "nusal__new",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/run/media/kmjanith/D/campus_docs/sem7/parellel/lab_2/code/SenateBus_lab2",
     "node.js.detected.package.eslint": "true",

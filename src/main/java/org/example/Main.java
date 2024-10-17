@@ -18,11 +18,19 @@ public class Main {
 
         //starting threads
         Bus.start();
+        System.out.println("🚌 [BUS THREAD] Starting " + Bus.getName());
+        System.out.println("======================================");
+        // adding a small delay before starting the rider thread
+        try {
+            Thread.sleep(100); // Delay of 1000 milliseconds (1 second)
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Rider.start();
         RiderTempo.start();
 
-        System.out.println("🚌 [BUS THREAD] Starting " + Bus.getName());
-        System.out.println("======================================");
+
         System.out.println("🚶‍ [RIDER THREAD] Starting " + Rider.getName());
         System.out.println("======================================");
         System.out.println("🚶‍ [TEMP RIDER THREAD] Starting " + RiderTempo.getName());

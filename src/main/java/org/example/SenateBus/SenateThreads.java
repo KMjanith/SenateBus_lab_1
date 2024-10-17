@@ -44,7 +44,7 @@ public class SenateThreads extends Thread {
                             String rider = Riders.riderQueue.poll();  // Remove from the queue (FIFO)
                             System.out.println("🚌 Boarding Rider: " + rider);
                             boardedRiders++;
-                            Thread.sleep(120);  // Simulate boarding time
+                            Thread.sleep(50);  // Simulate boarding time
                         }
 
                         System.out.println("🚌 Bus DEPARTED with " + boardedRiders + " riders 🎟️ | Remaining Riders at stop: " + Riders.riderQueue.size());
