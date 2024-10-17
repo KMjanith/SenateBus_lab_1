@@ -44,7 +44,7 @@ public class SenateThreads extends Thread {
                             String rider = Riders.riderQueue.poll();  // Remove from the queue (FIFO)
                             System.out.println("🚌 Boarding Rider: " + rider);
                             boardedRiders++;
-                            Thread.sleep(200);  // Simulate boarding time
+                            Thread.sleep(120);  // Simulate boarding time
                         }
 
                         System.out.println("🚌 Bus DEPARTED with " + boardedRiders + " riders 🎟️ | Remaining Riders at stop: " + Riders.riderQueue.size());
@@ -74,7 +74,7 @@ public class SenateThreads extends Thread {
 
                 } else {  // TempRider
                     tempFiller.acquire();  // Get permit to add to the waiting queue
-                    String tempRiderName = "TempRider-" + riderID++;
+                    String tempRiderName = "Rider-" + riderID++;
                     Riders.waitingQueue.add(tempRiderName);  // Add to temporary waiting queue
                     System.out.println("🚶 " + threadName + " added " + tempRiderName + " to the waiting queue. Total Waiting Riders: " + Riders.waitingQueue.size());
                     tempFiller.release();  // Allow the bus to board riders when it arrives

@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="032f89c4-4552-4ea4-b435-6df4543ee216" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/SenateBus/SenateThreads.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/SenateBus/SenateThreads.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,6 +41,14 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="nusal_new" />
+                    <option name="lastUsedInstant" value="1729145560" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="0v" />
+                    <option name="lastUsedInstant" value="1729145063" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="semaphore_janith" />
                     <option name="lastUsedInstant" value="1728902477" />
                   </RecentBranch>
@@ -75,22 +82,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;semaphore__janith&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/run/media/kmjanith/D/campus_docs/sem7/parellel/lab_2/code/SenateBus_lab2&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "nusal__new",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/run/media/kmjanith/D/campus_docs/sem7/parellel/lab_2/code/SenateBus_lab2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
@@ -131,7 +138,8 @@
       <workItem from="1728914478965" duration="2530000" />
       <workItem from="1728953683791" duration="1468000" />
       <workItem from="1729011525862" duration="670000" />
-      <workItem from="1729074223090" duration="10961000" />
+      <workItem from="1729074223090" duration="11579000" />
+      <workItem from="1729142994366" duration="2173000" />
     </task>
     <servers />
   </component>
